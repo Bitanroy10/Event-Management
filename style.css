@@ -4,16 +4,16 @@
    ========================================================== */
 
 :root {
-  --void: #0a1317;
-  --gunmetal: #101c22;
-  --plate: #162630;
-  --plate-edge: #294450;
-  --ash: #d3dfe1;
-  --ash-dim: #93a9ae;
-  --doom-green: #7fd6c2;
-  --doom-green-deep: #2f7f78;
-  --ember: #f0d9a8;
-  --alert: #e8a094;
+  --void: #06070f;
+  --gunmetal: #0c1020;
+  --plate: #121832;
+  --plate-edge: #2b3560;
+  --ash: #dfe6f2;
+  --ash-dim: #9aa6c4;
+  --doom-green: #4dffb0;
+  --doom-green-deep: #1a9a6f;
+  --ember: #ffd76a;
+  --alert: #ff7a66;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -38,7 +38,8 @@ body {
   line-height: 1.65;
   color: var(--ash);
   background:
-    radial-gradient(ellipse at 50% -10%, #2f7f7833, transparent 55%),
+    radial-gradient(ellipse at 15% -5%, #5a2fd138, transparent 55%),
+    radial-gradient(ellipse at 90% 105%, #1a9a6f2e, transparent 55%),
     var(--void);
   min-height: 100vh;
 }
@@ -150,7 +151,7 @@ nav a:hover { color: var(--ember); border-color: var(--ember); }
   height: 640px;
   max-width: 120vw;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, #7fd6c229 0%, transparent 65%);
+  background: radial-gradient(circle, #4dffb029 0%, transparent 65%);
   animation: pulse 11s ease-in-out infinite;
   pointer-events: none;
 }
@@ -192,7 +193,7 @@ nav a:hover { color: var(--ember); border-color: var(--ember); }
   background: var(--gunmetal);
   border: 1px solid var(--doom-green-deep);
   border-radius: 4px;
-  box-shadow: 0 0 0 4px #0000, 0 0 36px #7fd6c226;
+  box-shadow: 0 0 0 4px #0000, 0 0 36px #4dffb026;
 }
 
 .doom-clock-label {
@@ -244,7 +245,7 @@ nav a:hover { color: var(--ember); border-color: var(--ember); }
   clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
   transition: background 0.2s, transform 0.15s;
 }
-.btn:hover { background: #f7e6bf; }
+.btn:hover { background: #ffe69a; }
 .btn:active { transform: translateY(1px); }
 .btn[disabled] {
   background: var(--plate-edge);
@@ -300,7 +301,7 @@ nav a:hover { color: var(--ember); border-color: var(--ember); }
 }
 .card:hover {
   border-color: var(--doom-green);
-  box-shadow: 0 0 28px #7fd6c222;
+  box-shadow: 0 0 28px #4dffb022;
 }
 
 .card-tag {
@@ -468,14 +469,14 @@ form .btn {
 .fog-one {
   left: -30vmax;
   top: -35vmax;
-  background: radial-gradient(circle, #2f7f7880 0%, transparent 62%);
+  background: radial-gradient(circle, #5a2fd18c 0%, transparent 62%);
   animation: fog-drift-a 42s ease-in-out infinite alternate;
 }
 
 .fog-two {
   right: -35vmax;
   bottom: -40vmax;
-  background: radial-gradient(circle, #7fd6c240 0%, transparent 62%);
+  background: radial-gradient(circle, #4dffb040 0%, transparent 62%);
   animation: fog-drift-b 50s ease-in-out infinite alternate;
 }
 
@@ -492,7 +493,7 @@ form .btn {
 .doom-flash {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 30%, #9be8d644, transparent 60%);
+  background: radial-gradient(ellipse at 50% 30%, #b9ffe344, transparent 60%);
   opacity: 0;
 }
 .doom-flash.on { animation: flash 2.6s ease-in-out; }
@@ -549,7 +550,7 @@ nav a.active { color: var(--ember); border-color: var(--ember); }
   height: 460px;
   margin: -230px 0 0 -230px;
   border-radius: 50%;
-  background: radial-gradient(circle, #7fd6c220, transparent 65%);
+  background: radial-gradient(circle, #4dffb020, transparent 65%);
   transform: translate(var(--cx, -999px), var(--cy, -999px));
   pointer-events: none;
   z-index: -1;
@@ -557,7 +558,7 @@ nav a.active { color: var(--ember); border-color: var(--ember); }
 @media (hover: none) { .cursor-glow { display: none; } }
 
 /* Hero text */
-.hero-title { text-shadow: 0 0 34px #7fd6c233; }
+.hero-title { text-shadow: 0 0 34px #4dffb033; }
 
 .hero-kicker.typing::after {
   content: "\258D";
@@ -571,7 +572,7 @@ nav a.active { color: var(--ember); border-color: var(--ember); }
   position: relative;
   display: inline-block;
   color: var(--doom-green);
-  text-shadow: 0 0 22px #7fd6c288;
+  text-shadow: 0 0 22px #4dffb088;
 }
 .glitch::before,
 .glitch::after {
@@ -593,7 +594,7 @@ nav a.active { color: var(--ember); border-color: var(--ember); }
 }
 
 /* Doom clock glow */
-.doom-clock-grid span { text-shadow: 0 0 20px #7fd6c266; }
+.doom-clock-grid span { text-shadow: 0 0 20px #4dffb066; }
 
 /* Section titles: slow green shimmer */
 .section-title {
@@ -669,7 +670,7 @@ nav a.active { color: var(--ember); border-color: var(--ember); }
     z-index: 5;
     transform: scale(1.07);
     border-color: var(--doom-green);
-    box-shadow: 0 22px 54px #00000066, 0 0 38px #7fd6c226;
+    box-shadow: 0 22px 54px #00000066, 0 0 38px #4dffb026;
   }
 }
 
@@ -684,7 +685,7 @@ nav a.active { color: var(--ember); border-color: var(--ember); }
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), #7fd6c222, transparent 70%);
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), #4dffb022, transparent 70%);
   opacity: 0;
   transition: opacity 0.5s var(--ease);
   pointer-events: none;

@@ -47,7 +47,7 @@
       sway: rand(0.4, 1.6),
       phase: rand(0, Math.PI * 2),
       flicker: rand(0.006, 0.02),
-      hue: hot ? "240,217,168" : "127,214,194"
+      hue: hot ? "255,215,106" : "77,255,176"
     };
   }
 
@@ -69,8 +69,8 @@
     if (!bolt) return;
     ctx.save();
     ctx.lineJoin = "round";
-    ctx.strokeStyle = "rgba(127,214,194," + (bolt.life * 0.5).toFixed(3) + ")";
-    ctx.shadowColor = "rgba(127,214,194,0.9)";
+    ctx.strokeStyle = "rgba(77,255,176," + (bolt.life * 0.5).toFixed(3) + ")";
+    ctx.shadowColor = "rgba(77,255,176,0.9)";
     ctx.shadowBlur = 26;
     ctx.lineWidth = 1.5;
     ctx.beginPath();
