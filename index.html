@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DOOMSDAY | Eventify - Avengers Edition</title>
+  <title>DOOMSDAY | I will return in Avengers Doomsday</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,14 +13,24 @@
 </head>
 
 <body>
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+
   <a class="skip-link" href="#events">Skip to events</a>
 
+  <!-- Animated Doomsday backdrop -->
+  <div class="doom-sky" aria-hidden="true">
+    <div class="doom-fog fog-one"></div>
+    <div class="doom-fog fog-two"></div>
+    <div class="doom-flash" id="doomFlash"></div>
+  </div>
+  <canvas id="doomCanvas" aria-hidden="true"></canvas>
+
   <header class="site-header">
-    <a class="brand" href="#home" aria-label="Doomsday home">
+    <a class="brand" href="#home" aria-label="Doomsday Eventify home">
       <span class="brand-mark" aria-hidden="true"></span>
       <span class="brand-text">
         <strong>DOOMSDAY</strong>
-        <small>Eventify &middot; Avengers Edition</small>
+        <small>I will return in Avengers Doomsday</small>
       </span>
     </a>
     <nav aria-label="Main">
@@ -103,6 +113,7 @@
     <p>Designed by: Your Name</p>
   </footer>
 
+  <script src="background.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

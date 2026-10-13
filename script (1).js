@@ -308,7 +308,187 @@
     cd.seconds.textContent = pad(s % 60);
   }
 
+  // ---------- Animated background: drifting fog, embers, green lightning ----------
+  function startBackground() {
+    const canvas = document.getElementById("bgCanvas");
+    if (!canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext("2d");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let w = 0, h = 0, dpr = 1;
+    let embers = [];
+    let bolts = [];
+    let flash = 0;
+    let nextBolt = performance.now() + 2500;
+    let running = true;
+
+    const fog = [
+      { x: 0.2, y: 0.3, r: 0.55, sx: 0.00004, phase: 0 },
+      { x: 0.8, y: 0.6, r: 0.6,  sx: 0.00003, phase: 2 },
+      { x: 0.5, y: 0.95, r: 0.7, sx: 0.00005, phase: 4 }
+    ];
+
+    function rand(min, max) { return min + Math.random() * (max - min); }
+
+    function makeEmber(initial) {
+      const gold = Math.random() < 0.18;
+      return {
+        x: rand(0, w),
+        y: initial ? rand(0, h) : h + rand(0, 40),
+        size: rand(0.8, 2.6),
+        speed: rand(0.25, 1.1),
+        sway: rand(0.4, 1.6),
+        phase: rand(0, Math.PI * 2),
+        life: rand(0.35, 1),
+        color: gold ? "232,176,74" : "47,191,113"
+      };
+    }
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const count = Math.round(Math.min(110, (w * h) / 14000));
+      embers = [];
+      for (let i = 0; i < count; i++) embers.push(makeEmber(true));
+    }
+
+    // Jagged lightning path from the top of the screen downward
+    function makeBolt() {
+      const pts = [];
+      let x = rand(w * 0.1, w * 0.9);
+      let y = -10;
+      const endY = rand(h * 0.35, h * 0.85);
+      while (y < endY) {
+        pts.push([x, y]);
+        x += rand(-34, 34);
+        y += rand(18, 46);
+      }
+      const branch = [];
+      if (pts.length > 4) {
+        const from = pts[Math.floor(pts.length * rand(0.3, 0.6))];
+        let bx = from[0], by = from[1];
+        for (let i = 0; i < 5; i++) {
+          branch.push([bx, by]);
+          bx += rand(10, 40) * (Math.random() < 0.5 ? -1 : 1);
+          by += rand(14, 34);
+        }
+      }
+      return { pts: pts, branch: branch, age: 0, life: 420 };
+    }
+
+    function drawPath(pts) {
+      if (pts.length < 2) return;
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+      ctx.stroke();
+    }
+
+    function drawFog(t) {
+      fog.forEach(function (f) {
+        const cx = (f.x + Math.sin(t * f.sx * 6 + f.phase) * 0.12) * w;
+        const cy = (f.y + Math.cos(t * f.sx * 5 + f.phase) * 0.06) * h;
+        const r = f.r * Math.max(w, h);
+        const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+        g.addColorStop(0, "rgba(20,102,63,0.20)");
+        g.addColorStop(0.5, "rgba(20,102,63,0.07)");
+        g.addColorStop(1, "rgba(20,102,63,0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, w, h);
+      });
+    }
+
+    function drawEmbers(t, dt) {
+      embers.forEach(function (e, i) {
+        if (!reduceMotion) {
+          e.y -= e.speed * dt * 0.06;
+          e.x += Math.sin(t * 0.0006 * e.sway + e.phase) * 0.35;
+        }
+        if (e.y < -20) embers[i] = makeEmber(false);
+
+        const flicker = 0.6 + 0.4 * Math.sin(t * 0.004 + e.phase * 3);
+        const alpha = e.life * flicker * Math.min(1, (h - e.y) / 120 + 0.2);
+
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(" + e.color + "," + (alpha * 0.9).toFixed(3) + ")";
+        ctx.shadowColor = "rgba(" + e.color + ",0.9)";
+        ctx.shadowBlur = e.size * 5;
+        ctx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.shadowBlur = 0;
+    }
+
+    function drawBolts(now, dt) {
+      if (!reduceMotion && now > nextBolt) {
+        bolts.push(makeBolt());
+        flash = 0.12;
+        nextBolt = now + rand(4000, 9000);
+      }
+
+      bolts = bolts.filter(function (b) { return b.age < b.life; });
+      bolts.forEach(function (b) {
+        b.age += dt;
+        const k = 1 - b.age / b.life;
+        ctx.lineJoin = "round";
+        ctx.shadowColor = "rgba(61,235,140,1)";
+        ctx.shadowBlur = 18;
+        ctx.strokeStyle = "rgba(61,235,140," + (0.7 * k).toFixed(3) + ")";
+        ctx.lineWidth = 2.2;
+        drawPath(b.pts);
+        ctx.lineWidth = 1.2;
+        drawPath(b.branch);
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = "rgba(230,255,240," + (0.9 * k).toFixed(3) + ")";
+        ctx.lineWidth = 0.9;
+        drawPath(b.pts);
+      });
+
+      if (flash > 0.002) {
+        ctx.fillStyle = "rgba(47,191,113," + flash.toFixed(3) + ")";
+        ctx.fillRect(0, 0, w, h);
+        flash *= 0.88;
+      }
+    }
+
+    let last = performance.now();
+    let rafId = 0;
+    function frame(now) {
+      if (!running) return;
+      const dt = Math.min(now - last, 50);
+      last = now;
+
+      ctx.clearRect(0, 0, w, h);
+      drawFog(now);
+      drawEmbers(now, dt);
+      drawBolts(now, dt);
+
+      if (!reduceMotion) rafId = requestAnimationFrame(frame);
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Pause when the tab is hidden to save battery
+    document.addEventListener("visibilitychange", function () {
+      running = !document.hidden;
+      if (running && !reduceMotion) {
+        cancelAnimationFrame(rafId);
+        last = performance.now();
+        rafId = requestAnimationFrame(frame);
+      }
+    });
+
+    rafId = requestAnimationFrame(frame);
+  }
+
   // ---------- Init ----------
+  startBackground();
   renderSelect();
   renderEvents();
   renderRoster();
