@@ -1,0 +1,429 @@
+/* ==========================================================
+   DOOMSDAY - Avengers Edition
+   Palette: gunmetal base, Latverian green energy, ember gold
+   ========================================================== */
+
+:root {
+  --void: #080b0a;
+  --gunmetal: #111816;
+  --plate: #17201d;
+  --plate-edge: #2a3833;
+  --ash: #c8d2cd;
+  --ash-dim: #8a9a93;
+  --doom-green: #2fbf71;
+  --doom-green-deep: #14663f;
+  --ember: #e8b04a;
+  --alert: #e5533d;
+
+  --font-display: "Cinzel", "Trajan Pro", Georgia, serif;
+  --font-body: "Barlow", "Segoe UI", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--ash);
+  background:
+    radial-gradient(ellipse at 50% -10%, #14663f33, transparent 55%),
+    var(--void);
+  min-height: 100vh;
+}
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--ember);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 8px;
+  background: var(--ember);
+  color: #1a1204;
+  padding: 8px 14px;
+  border-radius: 4px;
+  z-index: 100;
+}
+.skip-link:focus { left: 8px; }
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 8%;
+  background: #080b0acc;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--plate-edge);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+/* Hexagonal reactor-style mark, pure CSS */
+.brand-mark {
+  width: 34px;
+  height: 38px;
+  background: linear-gradient(160deg, var(--doom-green), var(--doom-green-deep));
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  position: relative;
+  flex-shrink: 0;
+}
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  inset: 9px 8px;
+  background: var(--void);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-text strong {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 0.12em;
+  color: var(--doom-green);
+}
+.brand-text small { color: var(--ash-dim); font-size: 0.78rem; }
+
+nav a {
+  text-decoration: none;
+  margin-left: 22px;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s, color 0.2s;
+}
+nav a:hover { color: var(--ember); border-color: var(--ember); }
+
+/* ---------- Hero ---------- */
+.hero {
+  text-align: center;
+  padding: 90px 8% 80px;
+  border-bottom: 1px solid var(--plate-edge);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Slow green energy pulse behind the hero - the one deliberate motion */
+.hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  width: 640px;
+  height: 640px;
+  max-width: 120vw;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #2fbf7129 0%, transparent 65%);
+  animation: pulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.55; transform: translate(-50%, -50%) scale(0.92); }
+  50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.08); }
+}
+
+.hero > * { position: relative; }
+
+.hero-kicker {
+  color: var(--ember);
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.1rem, 6vw, 4rem);
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  color: #eef4f0;
+  margin-bottom: 20px;
+}
+
+.hero-copy {
+  max-width: 52ch;
+  margin: 0 auto 36px;
+  color: var(--ash-dim);
+}
+
+/* ---------- Doom clock ---------- */
+.doom-clock {
+  display: inline-block;
+  margin-bottom: 38px;
+  padding: 18px 26px 22px;
+  background: var(--gunmetal);
+  border: 1px solid var(--doom-green-deep);
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px #0000, 0 0 36px #2fbf7126;
+}
+
+.doom-clock-label {
+  font-size: 0.95rem;
+  color: var(--ash-dim);
+  margin-bottom: 10px;
+}
+
+.doom-clock-grid {
+  display: flex;
+  gap: clamp(14px, 4vw, 34px);
+  justify-content: center;
+}
+
+.doom-clock-grid div {
+  display: flex;
+  flex-direction: column;
+  min-width: 62px;
+}
+
+.doom-clock-grid span {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 6vw, 3.1rem);
+  line-height: 1;
+  color: var(--doom-green);
+  font-variant-numeric: tabular-nums;
+}
+
+.doom-clock-grid small {
+  color: var(--ash-dim);
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  background: var(--ember);
+  color: #1a1204;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 26px;
+  border: none;
+  border-radius: 3px;
+  text-decoration: none;
+  cursor: pointer;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  transition: background 0.2s, transform 0.15s;
+}
+.btn:hover { background: #f4c46c; }
+.btn:active { transform: translateY(1px); }
+.btn[disabled] {
+  background: var(--plate-edge);
+  color: var(--ash-dim);
+  cursor: not-allowed;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--ash-dim);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  margin-top: 8px;
+}
+.link-btn:hover { color: var(--alert); }
+
+/* ---------- Sections ---------- */
+.section { padding: 70px 8%; }
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  text-align: center;
+  color: #eef4f0;
+  margin-bottom: 8px;
+}
+
+.section-sub {
+  text-align: center;
+  color: var(--ash-dim);
+  margin-bottom: 38px;
+}
+
+/* ---------- Event cards ---------- */
+.events {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--plate);
+  border: 1px solid var(--plate-edge);
+  border-top: 4px solid var(--doom-green);
+  border-radius: 4px;
+  padding: 26px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  border-color: var(--doom-green);
+  box-shadow: 0 0 28px #2fbf7122;
+}
+
+.card-tag {
+  align-self: flex-start;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ember);
+  border: 1px solid var(--ember);
+  border-radius: 3px;
+  padding: 1px 10px;
+  margin-bottom: 14px;
+}
+
+.card h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: #eef4f0;
+  margin-bottom: 8px;
+}
+
+.card p { margin-bottom: 8px; }
+.card .card-desc { color: var(--ash-dim); flex-grow: 1; }
+.card strong { color: var(--ash); }
+
+.seats {
+  margin: 12px 0 18px;
+}
+.seats-bar {
+  height: 6px;
+  background: var(--void);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.seats-fill {
+  height: 100%;
+  background: var(--doom-green);
+  transition: width 0.4s ease;
+}
+.seats-fill.low { background: var(--alert); }
+.seats-text { font-size: 0.9rem; color: var(--ash-dim); }
+
+/* ---------- Form ---------- */
+form {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--plate);
+  border: 1px solid var(--plate-edge);
+  border-radius: 4px;
+  padding: 30px;
+}
+
+label {
+  display: block;
+  margin-top: 14px;
+  font-weight: 600;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  font: inherit;
+  color: var(--ash);
+  background: var(--void);
+  border: 1px solid var(--plate-edge);
+  border-radius: 3px;
+}
+input:focus, select:focus { border-color: var(--doom-green); }
+input[aria-invalid="true"],
+select[aria-invalid="true"] { border-color: var(--alert); }
+
+.field-error {
+  min-height: 1.2em;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: var(--alert);
+}
+
+form .btn {
+  margin-top: 20px;
+  width: 100%;
+}
+
+#message {
+  margin-top: 16px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--doom-green);
+}
+
+/* ---------- Roster ---------- */
+.roster {
+  max-width: 520px;
+  margin: 28px auto 0;
+  padding: 22px 26px;
+  border: 1px dashed var(--doom-green-deep);
+  border-radius: 4px;
+}
+.roster h3 {
+  font-family: var(--font-display);
+  color: #eef4f0;
+  margin-bottom: 10px;
+}
+.roster ul { list-style: none; }
+.roster li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--plate-edge);
+}
+.roster li span:last-child { color: var(--ash-dim); font-size: 0.9rem; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  text-align: center;
+  padding: 26px;
+  color: var(--ash-dim);
+  background: var(--gunmetal);
+  border-top: 1px solid var(--plate-edge);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  .site-header { justify-content: center; }
+  nav a { margin: 0 9px; }
+  .hero { padding: 64px 6% 56px; }
+  .section { padding: 54px 6%; }
+  form { padding: 22px; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero::before { animation: none; }
+  * { transition: none !important; }
+}

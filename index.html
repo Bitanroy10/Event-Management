@@ -3,150 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eventify | Event Management</title>
+  <title>DOOMSDAY | Eventify - Avengers Edition</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 
-    body {
-      background: #f5f6fa;
-      color: #222;
-      line-height: 1.6;
-    }
-
-    header {
-      background: #302b63;
-      color: white;
-      padding: 22px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    header h1 { color: #ffd166; }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 18px;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 65px 20px;
-      background: linear-gradient(135deg, #302b63, #24243e);
-      color: white;
-    }
-
-    .hero h2 {
-      font-size: 38px;
-      margin-bottom: 12px;
-    }
-
-    .hero p { margin-bottom: 22px; }
-
-    .btn {
-      display: inline-block;
-      background: #ffd166;
-      color: #222;
-      padding: 11px 20px;
-      border: none;
-      border-radius: 6px;
-      text-decoration: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    section {
-      padding: 42px 8%;
-    }
-
-    section h2 {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .events {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 22px;
-    }
-
-    .card {
-      background: white;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px #00000012;
-    }
-
-    .card h3 {
-      color: #302b63;
-      margin-bottom: 10px;
-    }
-
-    .card p { margin-bottom: 10px; }
-
-    form {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px #00000012;
-    }
-
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: bold;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 11px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    form button {
-      margin-top: 18px;
-      width: 100%;
-    }
-
-    #message {
-      text-align: center;
-      margin-top: 15px;
-      color: #176b37;
-      font-weight: bold;
-    }
-
-    footer {
-      text-align: center;
-      background: #24243e;
-      color: white;
-      padding: 20px;
-    }
-
-    @media (max-width: 600px) {
-      header { justify-content: center; }
-      nav a { margin: 0 7px; }
-      .hero h2 { font-size: 29px; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <header>
-    <h1>DOOMSDAY</h1>
-    <nav>
+  <a class="skip-link" href="#events">Skip to events</a>
+
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Doomsday Eventify home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">
+        <strong>DOOMSDAY</strong>
+        <small>Eventify &middot; Avengers Edition</small>
+      </span>
+    </a>
+    <nav aria-label="Main">
       <a href="#home">Home</a>
       <a href="#events">Events</a>
       <a href="#register">Register</a>
@@ -154,99 +31,78 @@
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero" id="home">
-      <h2>Make Every Event Memorable</h2>
-      <p>Discover exciting events, connect with people, and join the experience.</p>
-      <a class="btn" href="#events">Explore Events</a>
+      <p class="hero-kicker">The Avengers are called. Earth's events calendar is open.</p>
+      <h1 class="hero-title">
+        Doomsday is coming.<br>
+        Assemble before it does.
+      </h1>
+      <p class="hero-copy">
+        Three campus events, one registry. Pick your mission, claim a seat,
+        and stand with the team.
+      </p>
+
+      <div class="doom-clock" aria-live="off">
+        <p class="doom-clock-label" id="clockLabel">Time until the first event</p>
+        <div class="doom-clock-grid" role="timer" aria-labelledby="clockLabel">
+          <div><span id="cdDays">--</span><small>days</small></div>
+          <div><span id="cdHours">--</span><small>hours</small></div>
+          <div><span id="cdMinutes">--</span><small>minutes</small></div>
+          <div><span id="cdSeconds">--</span><small>seconds</small></div>
+        </div>
+      </div>
+
+      <a class="btn" href="#events">Choose your mission</a>
     </section>
 
-    <section id="events">
-      <h2>Upcoming Events</h2>
+    <!-- EVENTS -->
+    <section class="section" id="events">
+      <h2 class="section-title">Upcoming Missions</h2>
+      <p class="section-sub">Each event has limited seats. Registered seats update live on this device.</p>
 
-      <div class="events">
-        <article class="card">
-          <h3>Tech Fest 2026</h3>
-          <p>Explore technology, innovation, and exciting projects.</p>
-          <p><strong>Date:</strong> 20 November 2026</p>
-          <p><strong>Venue:</strong> College Auditorium</p>
-          <button class="btn" onclick="chooseEvent('Tech Fest 2026')">
-            Register
-          </button>
-        </article>
-
-        <article class="card">
-          <h3>Music Night</h3>
-          <p>Enjoy live music and performances with friends.</p>
-          <p><strong>Date:</strong> 25 November 2026</p>
-          <p><strong>Venue:</strong> Open Air Stage</p>
-          <button class="btn" onclick="chooseEvent('Music Night')">
-            Register
-          </button>
-        </article>
-
-        <article class="card">
-          <h3>Startup Workshop</h3>
-          <p>Learn about entrepreneurship and business ideas.</p>
-          <p><strong>Date:</strong> 30 November 2026</p>
-          <p><strong>Venue:</strong> Seminar Hall</p>
-          <button class="btn" onclick="chooseEvent('Startup Workshop')">
-            Register
-          </button>
-        </article>
+      <div class="events" id="eventsGrid">
+        <!-- Cards are rendered by script.js -->
       </div>
     </section>
 
-    <section id="register">
-      <h2>Event Registration</h2>
+    <!-- REGISTER -->
+    <section class="section" id="register">
+      <h2 class="section-title">Enlist Now</h2>
+      <p class="section-sub">Fill in your details to join the roster.</p>
 
-      <form id="registrationForm">
-        <label for="name">Full Name</label>
-        <input id="name" type="text" required>
+      <form id="registrationForm" novalidate>
+        <label for="name">Full name</label>
+        <input id="name" type="text" autocomplete="name" required>
+        <p class="field-error" id="nameError" role="alert"></p>
 
-        <label for="email">Email Address</label>
-        <input id="email" type="email" required>
+        <label for="email">Email address</label>
+        <input id="email" type="email" autocomplete="email" required>
+        <p class="field-error" id="emailError" role="alert"></p>
 
-        <label for="event">Choose Event</label>
+        <label for="event">Choose event</label>
         <select id="event" required>
           <option value="">Select an event</option>
-          <option>Tech Fest 2026</option>
-          <option>Music Night</option>
-          <option>Startup Workshop</option>
         </select>
+        <p class="field-error" id="eventError" role="alert"></p>
 
-        <button class="btn" type="submit">Submit Registration</button>
+        <button class="btn" type="submit">Join the roster</button>
         <p id="message" role="status"></p>
       </form>
+
+      <div class="roster" id="roster" hidden>
+        <h3>Your registrations</h3>
+        <ul id="rosterList"></ul>
+        <button class="link-btn" type="button" id="clearRoster">Clear my registrations</button>
+      </div>
     </section>
   </main>
 
-  <footer>
+  <footer class="site-footer">
     <p>Eventify | Web Development Assignment 2026</p>
     <p>Designed by: Your Name</p>
   </footer>
 
-  <script>
-    function chooseEvent(eventName) {
-      document.getElementById("event").value = eventName;
-      document.getElementById("register").scrollIntoView({
-        behavior: "smooth"
-      });
-    }
-
-    document.getElementById("registrationForm")
-      .addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        const name = document.getElementById("name").value.trim();
-        const eventName = document.getElementById("event").value;
-
-        document.getElementById("message").textContent =
-          "Thank you, " + name +
-          "! Your registration request for " + eventName +
-          " has been received in this portal.";
-
-        this.reset();
-      });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
