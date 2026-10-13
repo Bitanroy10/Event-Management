@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -16,6 +17,7 @@
   <canvas id="bgCanvas" aria-hidden="true"></canvas>
 
   <a class="skip-link" href="#events">Skip to events</a>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
   <!-- Animated Doomsday backdrop -->
   <div class="doom-sky" aria-hidden="true">
@@ -24,6 +26,7 @@
     <div class="doom-flash" id="doomFlash"></div>
   </div>
   <canvas id="doomCanvas" aria-hidden="true"></canvas>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
   <header class="site-header">
     <a class="brand" href="#home" aria-label="Doomsday Eventify home">
@@ -43,9 +46,9 @@
   <main>
     <!-- HERO -->
     <section class="hero" id="home">
-      <p class="hero-kicker">The Avengers are called. Earth's events calendar is open.</p>
+      <p class="hero-kicker" id="typeKicker">The Avengers are called. Earth's events calendar is open.</p>
       <h1 class="hero-title">
-        Doomsday is coming.<br>
+        <span class="glitch" data-text="Doomsday">Doomsday</span> is coming.<br>
         Assemble before it does.
       </h1>
       <p class="hero-copy">
@@ -64,6 +67,13 @@
       </div>
 
       <a class="btn" href="#events">Choose your mission</a>
+    </section>
+
+    <!-- AT A GLANCE -->
+    <section class="stats" aria-label="At a glance">
+      <div class="stat"><span class="stat-num" data-target="3">3</span><small>Missions</small></div>
+      <div class="stat"><span class="stat-num" data-target="350">350</span><small>Total seats</small></div>
+      <div class="stat"><span class="stat-num" data-target="11">11</span><small>Days of action</small></div>
     </section>
 
     <!-- EVENTS -->
@@ -115,5 +125,6 @@
 
   <script src="background.js"></script>
   <script src="script.js"></script>
+  <script src="effects.js"></script>
 </body>
 </html>
