@@ -1,5 +1,5 @@
 /* ==========================================================
-   DOOMSDAY | UI effects: reveal, typewriter, count-up, tilt,
+   DOOMSDAY | UI effects: reveal, typewriter, count-up, card spotlight,
    scroll progress, active nav, cursor glow
    Loaded after script.js so the event cards already exist.
    ========================================================== */
@@ -53,7 +53,7 @@
         clearInterval(timer);
         setTimeout(function () { kicker.classList.remove("typing"); }, 1200);
       }
-    }, 28);
+    }, 36);
   }
 
   // ---------- Count-up numbers ----------
@@ -61,7 +61,7 @@
 
   function countUp(el) {
     const target = Number(el.dataset.target) || 0;
-    const duration = 1400;
+    const duration = 1800;
     const start = performance.now();
     function step(now) {
       const t = Math.min((now - start) / duration, 1);
@@ -85,7 +85,7 @@
     nums.forEach(function (n) { numObserver.observe(n); });
   }
 
-  // ---------- Card tilt + spotlight (event delegation) ----------
+  // ---------- Card spotlight (the hover growth itself is pure CSS) ----------
   const grid = document.getElementById("eventsGrid");
   if (grid && !reduce) {
     grid.addEventListener("pointermove", function (e) {
@@ -93,19 +93,8 @@
       const card = e.target.closest(".card");
       if (!card) return;
       const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width;
-      const y = (e.clientY - r.top) / r.height;
-      card.style.setProperty("--ry", ((x - 0.5) * 8).toFixed(2) + "deg");
-      card.style.setProperty("--rx", ((0.5 - y) * 8).toFixed(2) + "deg");
-      card.style.setProperty("--mx", (x * 100).toFixed(1) + "%");
-      card.style.setProperty("--my", (y * 100).toFixed(1) + "%");
-    });
-
-    grid.addEventListener("pointerout", function (e) {
-      const card = e.target.closest(".card");
-      if (!card || card.contains(e.relatedTarget)) return;
-      card.style.setProperty("--rx", "0deg");
-      card.style.setProperty("--ry", "0deg");
+      card.style.setProperty("--mx", (((e.clientX - r.left) / r.width) * 100).toFixed(1) + "%");
+      card.style.setProperty("--my", (((e.clientY - r.top) / r.height) * 100).toFixed(1) + "%");
     });
   }
 
@@ -148,22 +137,29 @@
     });
   }
 
-  // ---------- Cursor glow ----------
+  // ---------- Cursor glow (eased, so it glides instead of snapping) ----------
   const glow = document.getElementById("cursorGlow");
   if (glow && !reduce) {
-    let gx = 0, gy = 0, glowTicking = false;
+    let tx = -999, ty = -999, x = -999, y = -999, running = false;
+
+    function loop() {
+      x += (tx - x) * 0.12;
+      y += (ty - y) * 0.12;
+      glow.style.setProperty("--cx", x.toFixed(1) + "px");
+      glow.style.setProperty("--cy", y.toFixed(1) + "px");
+      if (Math.abs(tx - x) > 0.5 || Math.abs(ty - y) > 0.5) {
+        requestAnimationFrame(loop);
+      } else {
+        running = false;
+      }
+    }
+
     window.addEventListener("pointermove", function (e) {
       if (e.pointerType === "touch") return;
-      gx = e.clientX;
-      gy = e.clientY;
-      if (!glowTicking) {
-        glowTicking = true;
-        requestAnimationFrame(function () {
-          glow.style.setProperty("--cx", gx + "px");
-          glow.style.setProperty("--cy", gy + "px");
-          glowTicking = false;
-        });
-      }
+      if (x === -999) { x = e.clientX; y = e.clientY; } // first move: no fly-in
+      tx = e.clientX;
+      ty = e.clientY;
+      if (!running) { running = true; requestAnimationFrame(loop); }
     });
   }
 })();

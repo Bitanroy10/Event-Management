@@ -31,23 +31,23 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     // fewer particles on small screens
-    const count = Math.round(Math.min(Math.max(w / 14, 40), 110));
+    const count = Math.round(Math.min(Math.max(w / 18, 32), 80));
     embers = [];
     for (let i = 0; i < count; i++) embers.push(makeEmber(true));
   }
 
   function makeEmber(randomY) {
-    const hot = Math.random() < 0.18; // a few gold sparks among the green
+    const hot = Math.random() < 0.12; // a few gold sparks among the green
     return {
       x: rand(0, w),
       y: randomY ? rand(0, h) : h + rand(10, 80),
-      r: rand(0.8, 2.8),
-      speed: rand(0.25, 1.1),
-      drift: rand(-0.25, 0.25),
+      r: rand(0.8, 2.4),
+      speed: rand(0.15, 0.55),
+      drift: rand(-0.15, 0.15),
       sway: rand(0.4, 1.6),
       phase: rand(0, Math.PI * 2),
-      flicker: rand(0.01, 0.04),
-      hue: hot ? "232,176,74" : "61,220,132"
+      flicker: rand(0.006, 0.02),
+      hue: hot ? "240,217,168" : "127,214,194"
     };
   }
 
@@ -69,10 +69,10 @@
     if (!bolt) return;
     ctx.save();
     ctx.lineJoin = "round";
-    ctx.strokeStyle = "rgba(61,220,132," + (bolt.life * 0.8).toFixed(3) + ")";
-    ctx.shadowColor = "rgba(61,220,132,0.9)";
-    ctx.shadowBlur = 18;
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = "rgba(127,214,194," + (bolt.life * 0.5).toFixed(3) + ")";
+    ctx.shadowColor = "rgba(127,214,194,0.9)";
+    ctx.shadowBlur = 26;
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
     bolt.points.forEach(function (p, i) {
       if (i === 0) ctx.moveTo(p[0], p[1]);
@@ -81,7 +81,7 @@
     ctx.stroke();
     ctx.restore();
 
-    bolt.life -= 0.045;
+    bolt.life -= 0.018;
     if (bolt.life <= 0) bolt = null;
   }
 
@@ -92,7 +92,7 @@
       void flashEl.offsetWidth; // restart the CSS animation
       flashEl.classList.add("on");
     }
-    setTimeout(triggerStrike, rand(9000, 16000));
+    setTimeout(triggerStrike, rand(14000, 24000));
   }
 
   let last = 0;
@@ -118,7 +118,7 @@
 
       // fade in near the bottom, fade out near the top
       const edge = Math.min(e.y / (h * 0.25), (h - e.y) / (h * 0.08), 1);
-      const twinkle = 0.55 + Math.sin(e.phase * 6) * 0.35;
+      const twinkle = 0.55 + Math.sin(e.phase * 3) * 0.3;
       const alpha = Math.max(edge, 0) * twinkle;
 
       ctx.beginPath();
